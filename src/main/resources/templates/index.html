@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EP03</title>
+
+    <!-- Icono de la pagina web (Favicon) -->
+    <link rel="shortcut icon" th:href="@{/images/icon_web.png}" href="../static/images/icon_web.png">
+
+    <!-- Enlazo el archivo de los estilos -->
+    <link th:href="@{/css/styles.css}" href="../static/css/styles.css" rel="stylesheet" />
+
+    <!-- Enlazar con la libreria 6.1.1 de Font-Awesome subida en el repositorio CDNJS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Enlazar archivo javascript -->
+    <script th:src="@{/js/index.js}" src="../static/js/index.js"></script>
+</head>
+<body>
+    <header id="masinfo_cab">
+        <div class="bordes">
+            <div class="container">
+                <h2>CRUD para Clientes</h2>
+            </div> <!-- container -->
+        </div> <!-- bordes -->
+        
+    </header> <!-- masinfo_cab / espaciado -->
+
+    <section id="CRUD" class="espaciado">
+        <div class="container">
+            <form id="filtro" th:action="@{/}">
+                <div>
+                    <label for="id">Filtrar ID:</label>
+                    <input type="number" name="id" id="id" th:value="${id}" placeholder="Ingrese ID">
+                    <button type="submit" id="btn-filtrar"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </form>
+            <h2 th:if="${clientes.isEmpty()}">No hay clientes</h2>
+            <table th:if="${!clientes.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th class="columna_1">ID</th>
+                        <th class="columna_2">Nombre</th>
+                        <th class="columna_3">Apellidos</th>
+                        <th class="columna_4">Correo</th>
+                        <th class="columna_5">Celular</th>
+                        <th class="columna_6">Acciones</th>
+                    </tr>  
+                </thead>
+                <tbody>
+                    <tr th:each="cliente : ${clientes}" th:id="${cliente.id}">
+                        <td class="columna_1" th:text="${cliente.id}"></td>
+                        <td class="columna_2" th:text="${cliente.nombre}"></td>
+                        <td class="columna_3" th:text="${cliente.apellidos}"></td>
+                        <td class="columna_4" th:text="${cliente.correo}"></td>
+                        <td class="columna_5" th:text="${cliente.celular}"></td>
+                        <td class="columna_6">
+                            <button th:attr="onclick=|editarFila('${cliente.id}')|"><i class="fa-solid fa-pencil"></i></button>
+                            <button><a th:href="@{/delete/{id}(id=${cliente.id})}" id="btn-eliminar"><i class="fa-solid fa-trash"></i></a></button>
+                            <button style="display: none;" th:attr="onclick=|guardarFila('${cliente.id}')|"><i class="fa-solid fa-floppy-disk"></i></button>
+                            <button style="display: none;" th:attr="onclick=|cancelarEdicion('${cliente.id}')|" id="btn-cancelar_2"><i class="fa-solid fa-ban"></i></button>
+                        </td>
+                    </tr> 
+                </tbody>
+                <tfoot id="formulario">
+                    <tr>
+                        <form th:action="@{/}" method="post" th:object="${cliente}" id="miFormulario">
+                            <td class="columna_1"><i class="fa-solid fa-user"></i></td>
+                            <td class="columna_2"><input disabled type="text" name="nombre" placeholder="Nombre" id="nombre"></td>
+                            <td class="columna_3"><input disabled type="text" name="apellidos" placeholder="Apellidos" id="apellidos"></td>
+                            <td class="columna_4"><input disabled type="email" name="correo" placeholder="Correo" id="correo"></td>
+                            <td class="columna_5"><input disabled type="number" name="celular" placeholder="Celular" id="celular"></td>
+                            <td class="columna_6">
+                                <button type="submit" id="btn-guardar"><i class="fa-solid fa-floppy-disk"></i></button>
+                                <button type="button" id="btn-cancelar"><i class="fa-solid fa-ban"></i></button>
+                                <button type="button" id="btn-agregar" class="center"><i class="fa-solid fa-plus"></i></button>
+                            </td>
+                        </form>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>     
+    </section>
+
+    <!-- Sección Pie -->
+    <footer id="pie">
+        <div class="container">
+            <p>&copy; 2023 Grupo 5 - Derechos reservados</p>
+        </div> <!-- contenedor -->
+    </footer> <!-- pie -->
+
+    <!-- Botón de Navegación rapida -->
+    <a href="#" id="scroll"><i class="fa-solid fa-angles-up fa-fw"></i></a>
+</body>
+</html>
