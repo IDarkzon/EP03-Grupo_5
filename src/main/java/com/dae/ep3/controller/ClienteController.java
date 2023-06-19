@@ -29,20 +29,11 @@ public class ClienteController {
         return "index";
     }
 
-    @GetMapping("/detalle")
-    public String Consultar(@RequestParam Integer id, Model model){
-        model.addAttribute("cliente", clienteService.Consultar(id));
-
-        return "index";
-    }
-
     @PostMapping("")
     public String Guardar(@ModelAttribute("cliente") Cliente cliente) {
         try {
             clienteService.Guardar(cliente);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) {}
         return "redirect:/";
     }
 
